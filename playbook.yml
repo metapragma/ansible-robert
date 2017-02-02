@@ -1,6 +1,0 @@
-
-#- include: "{{ playbook_dir }}/playbooks/check-requirements.yml"
-
-- hosts: localhost
-  roles:
-  - dotfiles

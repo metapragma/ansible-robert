@@ -4,13 +4,13 @@
 - name: create group
   group: name=robert state=present
 
-# - name: create user
-#   user:
-#     name: robert
-#     createhome: yes
-#     groups: wheel
-#     home: /home/robert/
-#     state: present
+- name: create user
+  user:
+    name: robert
+    createhome: yes
+    groups: wheel
+    home: /home/robert/
+    state: present
 
 - name: install NVM
   shell: curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
@@ -22,11 +22,11 @@
     warn: no
 
 - name: install NodeJS
-  shell: curl --silent --location https://rpm.nodesource.com/setup_7.x | bash
+  shell: bash -lc 'nvm install 7.5.0' 
   become: true
   become_user: robert
   args:
-    creates: /home/robert/.node
+    creates: /home/robert/.nvm/versions/7.5.0
     warn: no
 
 # - name: install Rust

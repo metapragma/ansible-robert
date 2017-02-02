@@ -1,0 +1,5 @@
+localhost ansible_connection=local
+
+[test-images]
+centos image="centos:7"
+#fedora image="fedora:25" 
