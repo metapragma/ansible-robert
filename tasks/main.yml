@@ -1,6 +1,7 @@
 ---
 # tasks file for dotfiles
 - include: dependencies.yml
+
 - name: create group
   group: name=robert state=present
 
@@ -8,9 +9,26 @@
   user:
     name: robert
     createhome: yes
-    groups: wheel
     home: /home/robert/
     state: present
+
+- authorized_key: user={{ robert_username }} key={{ robert_key }}
+
+- name: check groups
+  shell: /usr/bin/getent group | awk -F":" '{print $1}'
+  register: register_robert_etc_groups
+  changed_when: false
+
+- name: add secondary groups
+  user: name={{ robert_username }} groups={{ item }} append=yes
+  when: '"{{ item }}" in register_robert_etc_groups.stdout_lines'
+  with_items:
+    - mail
+    - docker
+
+- name: add keyboard interactive group
+  user: name={{ robert_username }} groups={{ robert_keyboard_interactive_group }} append=yes
+  when: robert_keyboard_interactive_group is defined and robert_keyboard_interactive_group != ""
 
 - name: install NVM
   shell: curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
@@ -22,7 +40,7 @@
     warn: no
 
 - name: install NodeJS
-  shell: bash -lc 'nvm install 7.5.0' 
+  shell: bash -lc 'nvm install 7.5.0'
   become: true
   become_user: robert
   args:

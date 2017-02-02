@@ -1,2 +1,6 @@
 ---
 # defaults file for dotfiles
+
+robert_username: robert
+robert_key: https://github.com/paerallax.keys
+robert_keyboard_interactive_group:
