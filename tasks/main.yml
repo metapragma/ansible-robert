@@ -25,6 +25,7 @@
   with_items:
     - mail
     - docker
+    - vboxusers
 
 - name: add keyboard interactive group
   user: name={{ robert_username }} groups={{ robert_keyboard_interactive_group }} append=yes
