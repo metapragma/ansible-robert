@@ -30,6 +30,15 @@
   user: name={{ robert_username }} groups={{ robert_keyboard_interactive_group }} append=yes
   when: robert_keyboard_interactive_group is defined and robert_keyboard_interactive_group != ""
 
+- name: fetch and install dotfiles
+  git:
+    repo: https://github.com/paerallax/dotfiles
+    clone: yes
+  shell: ./manage install
+    chdir: dotfiles
+  args:
+    executable: /bin/bash
+    
 - name: install NVM
   shell: curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
   become: true
